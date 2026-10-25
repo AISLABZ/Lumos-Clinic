@@ -1,0 +1,28 @@
+source,destination,type,group,rationale
+/carbon-laser-facials/,/treatments/carbon-laser-facials/,301,root-duplicate,Root shell (712 words; nosnippet) duplicates the full treatment page
+/dermatology-solutions/,/treatments/dermatology-solutions/,301,root-duplicate,Root shell duplicates the full treatment page
+/fat-dissolving-inj/,/treatments/fat-dissolving-inj/,301,root-duplicate,Root shell duplicates the full treatment page
+/fotona-laser/,/treatments/fotona-laser/,301,root-duplicate,Root shell duplicates the full treatment page
+/hollywood-smile-makeovers/,/treatments/hollywood-smile-makeovers/,301,root-duplicate,Root shell duplicates the full treatment page
+/hyaluronicacid-dermal-fillers/,/treatments/hyaluronicacid-dermal-fillers/,301,root-duplicate,Root shell duplicates the full treatment page
+/intimate-area-lightening/,/treatments/intimate-area-lightening/,301,root-duplicate,Root shell duplicates the full treatment page
+/labial-fillers/,/treatments/labial-fillers/,301,root-duplicate,Root shell duplicates the full treatment page
+/liquid-rhinoplasty/,/treatments/liquid-rhinoplasty/,301,root-duplicate,Root shell duplicates the full treatment page
+/orthodontics/,/treatments/orthodontics/,301,root-duplicate,Root shell duplicates the full treatment page
+/pigmentation-hyperpigmentation/,/treatments/hyperpigmentation-treatment-in-dubai/,301,root-duplicate,Root shell; consolidate into the strongest pigmentation page (2977 words)
+/q-switch-laser/,/treatments/q-switch-laser/,301,root-duplicate,Root shell duplicates the full treatment page
+/root-canals/,/treatments/root-canal-in-dubai/,301,root-duplicate,Root shell; consolidate into the keyword-led root canal page
+/skin-whitening-iv-gluta/,/treatments/skin-whitening-iv-gluta/,301,root-duplicate,Root shell duplicates the full treatment page
+/vaginal-rejuvenation/,/treatments/vaginal-rejuvenation/,301,root-duplicate,Root shell duplicates the full treatment page
+/viginismus/,/treatments/vaginismus-treatment-in-dubai/,301,root-duplicate,Root shell; misspelled slug
+/exosomes-treatment/,/treatments/exosomes-treatment-dubai/,301,root-duplicate,Root shell duplicates the exosomes hub
+/treatments/viginismus/,/treatments/vaginismus-treatment-in-dubai/,301,slug-fix,Spelling: patients search 'vaginismus'. Rename the post slug first then add this redirect
+/treatments/root-canals/,/treatments/root-canal-in-dubai/,301,overlap,Two root canal pages compete; keep keyword-led URL. Merge any unique copy first
+/treatments/pigmentation-hyperpigmentation/,/treatments/hyperpigmentation-treatment-in-dubai/,301,overlap,Two pigmentation pages compete; keep the deeper page. Merge any unique copy first
+/treatments/dental-treatments-dubai-2/,/treatments/dental-treatments-dubai/,301,overlap,Empty '-2' copy of the dental hub
+/terms-and-conditions/,/terms/,301,overlap,2-word empty page duplicates /terms/
+/treatments/https-lumosclinics-com-tmj-surgery-in-dubai/,/treatments/tmj-surgery-in-dubai/,301,slug-fix,Domain embedded in slug. Rename post slug first then add this redirect
+/treatments/https-lumosclinics-com-tooth-extraction-in-dubai/,/treatments/tooth-extraction-in-dubai/,301,slug-fix,Domain embedded in slug. Rename post slug first then add this redirect
+/treatments/https-lumosclinics-com-skin-boosters-hydration-quality-in-dubai/,/treatments/anti-wrinkle-treatment-in-dubai/,301,slug-fix,Page content is about wrinkle treatment (title 'Effective Wrinkle Treatments'); give it a matching slug. Check overlap with /treatments/anti-wrinkle-injectables-in-dubai/ before publishing
+/contact/,/about/,302,temporary,Both /contact/ and /contact-us/ 404. Temporary until a dedicated Contact page is built; then point both to it with 301
+/contact-us/,/about/,302,temporary,As above

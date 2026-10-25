@@ -1,0 +1,69 @@
+{
+ "url": "https://lumosclinics.com/treatments/veneers-in-dubai/",
+ "fetchTime": "2026-10-25T19:09:23.343Z",
+ "lighthouseVersion": "12.2.1",
+ "formFactor": "mobile",
+ "scores": {
+  "performance": 36,
+  "accessibility": 90,
+  "best-practices": 79,
+  "seo": 92
+ },
+ "metrics": {
+  "first-contentful-paint": "3.8\u00a0s",
+  "largest-contentful-paint": "6.7\u00a0s",
+  "total-blocking-time": "1,220\u00a0ms",
+  "cumulative-layout-shift": "0.002",
+  "speed-index": "9.7\u00a0s",
+  "server-response-time": "Root document took 1,820\u00a0ms",
+  "total-byte-weight": "Total size was 7,969\u00a0KiB",
+  "dom-size": "2,881 elements"
+ },
+ "resources": [
+  {
+   "type": "total",
+   "requests": 232,
+   "kib": 7969
+  },
+  {
+   "type": "image",
+   "requests": 112,
+   "kib": 3946
+  },
+  {
+   "type": "media",
+   "requests": 6,
+   "kib": 1652
+  },
+  {
+   "type": "font",
+   "requests": 10,
+   "kib": 1193
+  },
+  {
+   "type": "script",
+   "requests": 45,
+   "kib": 681
+  },
+  {
+   "type": "document",
+   "requests": 1,
+   "kib": 293
+  },
+  {
+   "type": "stylesheet",
+   "requests": 53,
+   "kib": 200
+  },
+  {
+   "type": "other",
+   "requests": 5,
+   "kib": 1
+  },
+  {
+   "type": "third-party",
+   "requests": 12,
+   "kib": 352
+  }
+ ]
+}

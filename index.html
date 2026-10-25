@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="#184f95,#2a78d6,#86b6ef">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumos Clinic SEO Audit</title>
+<style>
+  .viz-root{
+    color-scheme: light;
+    --surface-1:#fcfcfb; --plane:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --sev-critical:#184f95; --sev-high:#2a78d6; --sev-medium:#86b6ef;
+    --st-good:#0ca30c; --st-warning:#fab219; --st-serious:#ec835a; --st-critical:#d03b3b;
+    --seq-100:#cde2fb; --seq-450:#2a78d6; --seq-600:#184f95;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])) .viz-root{
+      color-scheme: dark;
+      --surface-1:#1a1a19; --plane:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --sev-critical:#b7d3f6; --sev-high:#5598e7; --sev-medium:#256abf;
+      --seq-100:#184f95; --seq-450:#3987e5; --seq-600:#9ec5f4;
+    }
+  }
+  :root[data-theme="dark"] .viz-root{
+    color-scheme: dark;
+    --surface-1:#1a1a19; --plane:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --sev-critical:#b7d3f6; --sev-high:#5598e7; --sev-medium:#256abf;
+    --seq-100:#184f95; --seq-450:#3987e5; --seq-600:#9ec5f4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--plane,#f9f9f7)}
+  .viz-root{
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background:var(--plane); color:var(--text-primary);
+    min-height:100vh; padding:32px 24px 64px;
+  }
+  .wrap{max-width:1120px;margin:0 auto}
+  header.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+  h1{font-size:22px;font-weight:650;margin:0 0 6px;letter-spacing:-0.01em}
+  .sub{font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5}
+  .toggle{background:var(--surface-1);border:1px solid var(--border);border-radius:8px;
+    color:var(--text-secondary);font:inherit;font-size:12px;padding:7px 12px;cursor:pointer}
+  .toggle:hover{color:var(--text-primary)}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:18px}
+  .card h2{font-size:14px;font-weight:600;margin:0 0 4px;letter-spacing:.01em}
+  .card .cap{font-size:12px;color:var(--muted);margin:0 0 18px;line-height:1.5}
+  .grid{display:grid;gap:18px}
+  .hero-row{grid-template-columns:minmax(240px,1fr) 2fr}
+  @media(max-width:820px){.hero-row{grid-template-columns:1fr}}
+  .hero .figure{font-size:64px;font-weight:650;line-height:1;letter-spacing:-0.03em;margin:6px 0 10px}
+  .hero .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+  .hero .note{font-size:12.5px;color:var(--text-secondary);line-height:1.55;margin:0}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  .kpi .k-label{font-size:11.5px;color:var(--muted);line-height:1.4;margin-bottom:8px}
+  .kpi .k-val{font-size:28px;font-weight:650;letter-spacing:-0.02em;line-height:1}
+  .kpi .k-sub{font-size:11.5px;color:var(--text-secondary);margin-top:7px;display:flex;align-items:center;gap:5px}
+  .dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+  /* severity bars */
+  .sevrow{display:grid;grid-template-columns:78px 1fr 34px;align-items:center;gap:12px;margin-bottom:12px}
+  .sevname{font-size:12.5px;color:var(--text-secondary);display:flex;align-items:center;gap:7px}
+  .sevtrack{height:20px;position:relative}
+  .sevbar{height:20px;border-radius:0 4px 4px 0;transition:filter .12s}
+  .sevrow:hover .sevbar{filter:brightness(1.08)}
+  .sevval{font-size:13px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+  /* meters */
+  .meters{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:820px){.meters{grid-template-columns:1fr}}
+  .meter .m-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+  .meter .m-name{font-size:12.5px;color:var(--text-secondary)}
+  .meter .m-val{font-size:20px;font-weight:650;letter-spacing:-0.01em}
+  .m-track{height:10px;border-radius:5px;background:var(--seq-100);position:relative;overflow:hidden}
+  .m-fill{height:10px;border-radius:5px}
+  .m-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:7px;font-variant-numeric:tabular-nums}
+  .m-foot{font-size:11.5px;color:var(--text-secondary);margin-top:9px;display:flex;align-items:center;gap:6px;line-height:1.4}
+  /* weight chart */
+  .wrow{display:grid;grid-template-columns:150px 1fr 76px;align-items:center;gap:12px;margin-bottom:10px}
+  .wname{font-size:12.5px;color:var(--text-secondary)}
+  .wbar{height:18px;border-radius:0 4px 4px 0}
+  .wval{font-size:12.5px;text-align:right;color:var(--text-secondary);font-variant-numeric:tabular-nums}
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;
+    letter-spacing:.05em;padding:0 10px 9px 0;border-bottom:1px solid var(--grid);white-space:nowrap}
+  td{padding:9px 10px 9px 0;border-bottom:1px solid var(--grid);color:var(--text-secondary);vertical-align:top}
+  tbody tr:hover td{background:color-mix(in srgb, var(--text-primary) 3.5%, transparent)}
+  td.p{color:var(--text-primary);font-weight:500;white-space:nowrap}
+  .num{font-variant-numeric:tabular-nums;text-align:right}
+  .bad{color:var(--st-critical);font-weight:600}
+  .okv{color:var(--st-good);font-weight:600}
+  /* findings */
+  .find{border-bottom:1px solid var(--grid);padding:15px 0;display:grid;grid-template-columns:96px 1fr;gap:16px}
+  .find:last-child{border-bottom:0;padding-bottom:0}
+  .badge{font-size:10.5px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:6px;
+    border:1px solid var(--border);white-space:nowrap}
+  .f-title{font-size:13.5px;font-weight:600;color:var(--text-primary);margin:0 0 5px;line-height:1.4}
+  .f-body{font-size:12.5px;color:var(--text-secondary);margin:0;line-height:1.6}
+  .f-body code{background:color-mix(in srgb, var(--text-primary) 6%, transparent);
+    padding:1px 5px;border-radius:4px;font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+  .f-fix{font-size:12.5px;color:var(--text-secondary);margin:7px 0 0;line-height:1.6}
+  .f-fix b{color:var(--text-primary);font-weight:600}
+  ol.steps{margin:0;padding-left:20px}
+  ol.steps li{font-size:13px;color:var(--text-secondary);line-height:1.65;margin-bottom:11px}
+  ol.steps li b{color:var(--text-primary);font-weight:600}
+  .foot{font-size:11.5px;color:var(--muted);line-height:1.65;margin:0}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--text-secondary);margin-bottom:16px}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .cap code,.foot code{background:color-mix(in srgb, var(--text-primary) 6%, transparent);padding:1px 5px;border-radius:4px;font-size:11px;font-family:ui-monospace,Menlo,monospace}
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  @media(max-width:520px){th,td{white-space:normal}.find{grid-template-columns:1fr;gap:8px}.wrow{grid-template-columns:110px 1fr 68px}}
+</style>
+</head>
+<body>
+<div class="viz-root">
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>Lumos Dental &amp; Aesthetic Clinic — SEO, AEO &amp; GEO baseline audit</h1>
+    <p class="sub">lumosclinics.com · WordPress + Elementor + Rank Math on Hostinger · audited 25 October 2026 · AiS LABZ<br>
+    Engagement-start baseline. Re-verifies the 21 October proposal audit and adds AI-visibility and local-entity findings.</p>
+  </div>
+  <button class="toggle" id="tg" type="button">Toggle theme</button>
+</header>
+
+<div class="grid hero-row" style="margin-bottom:18px">
+  <div class="card hero">
+    <div class="label">Findings</div>
+    <div class="figure">24</div>
+    <p class="note">Across all 127 HTML pages in the XML sitemap. The proposal's audit figures were reproduced exactly; we also found 6 issues it did not record.</p>
+  </div>
+  <div class="card">
+    <h2>Findings by severity</h2>
+    <p class="cap">Critical = blocks ranking, AI citation or conversion today.</p>
+    <div class="sevrow"><span class="sevname"><span class="dot" style="background:var(--sev-critical)"></span>Critical</span><div class="sevtrack"><div class="sevbar" style="width:77.8%;background:var(--sev-critical)"></div></div><span class="sevval">7</span></div>
+    <div class="sevrow"><span class="sevname"><span class="dot" style="background:var(--sev-high)"></span>High</span><div class="sevtrack"><div class="sevbar" style="width:100%;background:var(--sev-high)"></div></div><span class="sevval">9</span></div>
+    <div class="sevrow"><span class="sevname"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span><div class="sevtrack"><div class="sevbar" style="width:88.9%;background:var(--sev-medium)"></div></div><span class="sevval">8</span></div>
+  </div>
+</div>
+
+<div class="kpis" style="margin-bottom:18px">
+  <div class="kpi"><div class="k-label">Pages blocked from snippets &amp; AI Overviews</div><div class="k-val">36</div><div class="k-sub"><span class="dot" style="background:var(--st-critical)"></span>incl. all 5 category hubs</div></div>
+  <div class="kpi"><div class="k-label">Non-brand AI / search queries citing Lumos</div><div class="k-val">0 / 10</div><div class="k-sub"><span class="dot" style="background:var(--st-critical)"></span>competitors cited instead</div></div>
+  <div class="kpi"><div class="k-label">Mobile Lighthouse performance</div><div class="k-val">29</div><div class="k-sub"><span class="dot" style="background:var(--st-critical)"></span>desktop 65</div></div>
+  <div class="kpi"><div class="k-label">Pages with exactly one H1</div><div class="k-val">70 / 127</div><div class="k-sub"><span class="dot" style="background:var(--st-serious)"></span>34 none · 23 with 3–19</div></div>
+  <div class="kpi"><div class="k-label">Duplicate treatment URLs (root vs /treatments/)</div><div class="k-val">16</div><div class="k-sub"><span class="dot" style="background:var(--st-serious)"></span>+ 6 overlapping pages</div></div>
+  <div class="kpi"><div class="k-label">Medical schema (Clinic / Dentist / Physician / FAQ)</div><div class="k-val">0</div><div class="k-sub"><span class="dot" style="background:var(--st-serious)"></span>generic Organization only</div></div>
+  <div class="kpi"><div class="k-label">Phone numbers listed online for Unit 3501</div><div class="k-val">4</div><div class="k-sub"><span class="dot" style="background:var(--st-serious)"></span>legacy Fattan listings</div></div>
+  <div class="kpi"><div class="k-label">Images without alt text</div><div class="k-val">1,891</div><div class="k-sub"><span class="dot" style="background:var(--st-warning)"></span>13% of 14,454</div></div>
+</div>
+
+<div class="card">
+  <h2>Core Web Vitals — mobile (homepage)</h2>
+  <p class="cap">Lighthouse 12.2.1, local lab run, simulated mobile throttling. The proposal's PageSpeed run on 21 Oct gave 28 / 10.9 s, so the two runs agree. Treatment template (veneers page): 36, LCP 6.7 s.</p>
+  <div class="meters">
+    <div class="meter"><div class="m-top"><span class="m-name">Largest Contentful Paint</span><span class="m-val bad">10.0 s</span></div>
+      <div class="m-track"><div class="m-fill" style="width:100%;background:var(--st-critical)"></div></div>
+      <div class="m-scale"><span>0</span><span>2.5 good</span><span>4.0</span><span>10+</span></div>
+      <div class="m-foot"><span class="dot" style="background:var(--st-critical)"></span>4× the 2.5 s target</div></div>
+    <div class="meter"><div class="m-top"><span class="m-name">Total Blocking Time</span><span class="m-val bad">6,910 ms</span></div>
+      <div class="m-track"><div class="m-fill" style="width:100%;background:var(--st-critical)"></div></div>
+      <div class="m-scale"><span>0</span><span>200 good</span><span>600</span><span>6,000+</span></div>
+      <div class="m-foot"><span class="dot" style="background:var(--st-critical)"></span>42 scripts, 4,806 DOM nodes</div></div>
+    <div class="meter"><div class="m-top"><span class="m-name">Cumulative Layout Shift</span><span class="m-val okv">0.00</span></div>
+      <div class="m-track"><div class="m-fill" style="width:2%;background:var(--st-good)"></div></div>
+      <div class="m-scale"><span>0</span><span>0.1 good</span><span>0.25</span><span>0.5</span></div>
+      <div class="m-foot"><span class="dot" style="background:var(--st-good)"></span>Passing — keep it there</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>What's making the homepage slow</h2>
+  <p class="cap">Transfer size by resource type, 14,428 KiB total (target ≤ 2,500 KiB). Server response 1.78 s; the CDN reports every page as uncached (<code>x-hcdn-cache-status: DYNAMIC</code>).</p>
+  <div class="wrow"><span class="wname">Video (2 autoplay MP4)</span><div class="wbar" style="width:100%;background:var(--seq-600)"></div><span class="wval">7,606 KiB</span></div>
+  <div class="wrow"><span class="wname">Images (114)</span><div class="wbar" style="width:55.2%;background:var(--seq-450)"></div><span class="wval">4,200 KiB</span></div>
+  <div class="wrow"><span class="wname">Fonts (11)</span><div class="wbar" style="width:18.6%;background:var(--seq-450)"></div><span class="wval">1,414 KiB</span></div>
+  <div class="wrow"><span class="wname">Scripts (42)</span><div class="wbar" style="width:9.2%;background:var(--seq-450)"></div><span class="wval">700 KiB</span></div>
+  <div class="wrow"><span class="wname">HTML document</span><div class="wbar" style="width:3.9%;background:var(--seq-450)"></div><span class="wval">296 KiB</span></div>
+  <div class="wrow"><span class="wname">Stylesheets (47)</span><div class="wbar" style="width:2.7%;background:var(--seq-450)"></div><span class="wval">208 KiB</span></div>
+</div>
+
+<div class="card">
+  <h2>Critical findings</h2>
+  <p class="cap">Fix in Phase 1 (weeks 1–4) unless noted.</p>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">1 · 36 pages tell Google and AI engines not to quote them</p>
+    <p class="f-body">Robots meta <code>nosnippet, noarchive</code> on 36 pages, including the hubs <code>/dentist-in-dubai/</code>, <code>/cosmetic-dentistry-in-dubai/</code>, <code>/aesthetic-treatments-in-dubai/</code>, <code>/anti-aging-treatments-in-dubai/</code>, <code>/dermatology-skin-care-in-dubai/</code>, plus all 17 root-level treatment shells.</p>
+    <p class="f-fix"><b>Fix:</b> remove it in Rank Math (page-type default and per-page Advanced tab). This takes minutes and is the biggest single AEO unlock.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">2 · Lumos is absent from every non-brand AI / search answer tested</p>
+    <p class="f-body">0 of 10 patient-style queries (e.g. "best dental clinic in Dubai", "veneers Dubai price", "Profhilo Dubai price") surfaced Lumos. Answers cite Doctify, Zavis, Property Finder, Bayut, Grazia and the pricing pages of King's Aesthetics and Emirates Hospitals. Brand queries return look-alikes (Lumara, Lumus, a Malaysian "Lumos").</p>
+    <p class="f-fix"><b>Fix:</b> GEO workstream: entity clean-up, directory citations, priced treatment answers. See <code>docs/ai-visibility-baseline.md</code>.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">3 · GPTBot is rate-limited at the CDN (HTTP 429)</p>
+    <p class="f-body">Re-tested 25 Oct. GPTBot gets 429 on every request; OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended, Googlebot and Bingbot get 200.</p>
+    <p class="f-fix"><b>Fix:</b> allow-list verified AI crawlers in Hostinger's CDN / bot-protection settings.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">4 · Legacy "Fattan Polyclinic" listings conflict with Lumos at the same address <span style="font-weight:400;color:var(--muted)">(new)</span></p>
+    <p class="f-body">Unit 3501, Aspin Tower is still listed as Fattan Dental &amp; Derma / Fattan Polyclinic LLC on the DHR Waffer directory, Doctify, Edarabia and DRFive. Four phone numbers are in circulation (04 352 4140, 04 355 0236, 056 997 8196, 04 229 0018) and three sets of opening hours. Whether Lumos succeeded Fattan is <b>inferred, not confirmed</b>.</p>
+    <p class="f-fix"><b>Fix:</b> confirm the relationship with the clinic, then claim and rename or report each listing. NAP consistency is a primary Map Pack and AI-entity signal.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">5 · Mobile performance 29/100, LCP 10.0 s, 14.4 MB homepage</p>
+    <p class="f-body">Two autoplay hero videos are 7.6 MB on their own. Responsive images could save a further 2.9 MB. Server response is 1.8–2.1 s on every page because full-page caching is off.</p>
+    <p class="f-fix"><b>Fix:</b> poster image with tap-to-play video, enable LiteSpeed / hPanel caching, prune Elementor add-ons. Targets are in proposal §11.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">6 · The core hub pages have no unique content; the dental hub shows lorem ipsum and "0 AED" <span style="font-weight:400;color:var(--muted)">(new)</span></p>
+    <p class="f-body">The <code>&lt;main&gt;</code> element of <code>/aesthetic-treatments-in-dubai/</code> and <code>/cosmetic-dentistry-in-dubai/</code> is empty; all visible text is shared header and footer. <code>/dentist-in-dubai/</code> shows lorem-ipsum copy and three "Starting at 0 AED" prices, which is a DHA advertising risk as well as an SEO one.</p>
+    <p class="f-fix"><b>Fix:</b> remove placeholders now; write hub copy in Phase 3 with real "from" prices.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--st-critical)"><span class="dot" style="background:var(--st-critical)"></span>Critical</span></div><div>
+    <p class="f-title">7 · 16 treatments published twice; 6 more overlapping pages</p>
+    <p class="f-body">Root-level shells (712 words, nosnippet, no H1) duplicate full <code>/treatments/</code> pages with identical titles, e.g. <code>/orthodontics/</code> and <code>/treatments/orthodontics/</code>. Overlaps include two root-canal pages, two pigmentation pages, four exosomes pages, <code>/dental-treatments-dubai-2/</code> and <code>/terms-and-conditions/</code> (2 words).</p>
+    <p class="f-fix"><b>Fix:</b> 27-rule 301 map ready in <code>implementation/redirects.csv</code> (Rank Math import). Validate against Search Console before applying.</p></div></div>
+</div>
+
+<div class="card">
+  <h2>High-priority findings</h2>
+  <p class="cap">Phase 1–2.</p>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">8 · 57 pages have zero or multiple H1s</p>
+    <p class="f-body">34 have none; 18 have 19 H1s, 4 have 15, and 1 has 3. The treatment template tags "Benefits", "Step 1" and related-treatment cards as H1. One template fix corrects most of them.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">9 · No medical-entity schema; entity name inconsistent</p>
+    <p class="f-body">Rank Math outputs Organization named "Lumos Polyclinic llc.", WebSite named "Lumos Dental &amp; Aesthetic Clinic in Dubai", and Service. There is no MedicalClinic, Dentist, Physician, FAQPage, address, geo or hours. <code>sameAs</code> lists Facebook only. A draft graph is in <code>implementation/schema-medicalclinic.jsonld</code>.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">10 · 29 pages have no meta description; 16 duplicate titles</p>
+    <p class="f-body">Most of the duplicate titles are the root/treatments pairs; consolidation resolves them.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">11 · Malformed slugs contain the domain name</p>
+    <p class="f-body"><code>/treatments/https-lumosclinics-com-tooth-extraction-in-dubai/</code>, <code>…-tmj-surgery-in-dubai/</code>, <code>…-skin-boosters-hydration-quality-in-dubai/</code>. The last one is actually a wrinkle-treatment page.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">12 · Sitemap includes utility pages and omits /about/</p>
+    <p class="f-body">/my-account/, /customer-dashboard/, /latepoint/, /latepoint-booking/, /survey-page/, /sitemap/ and /locations.kml are listed. /about/ (doctor team) is live but missing. /contact/ and /contact-us/ return 404.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">13 · Demo-theme content is still live <span style="font-weight:400;color:var(--muted)">(new)</span></p>
+    <p class="f-body"><code>/shine-by-lumos/</code> lists template posts ("App developers that are going to slow down in 2020"). Demo category archives (/mindset/, /news/, /cases/, /trend/, /style/…) are linked site-wide. They are noindexed, but they show to patients and waste internal links.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">14 · No doctor credentials or profile pages (E-E-A-T)</p>
+    <p class="f-body">Doctors are named without qualifications or DHA licence numbers. Competitors cited by AI run 13–55 doctor pages each.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">15 · No informational content; no prices</p>
+    <p class="f-body">0 blog articles. Competitors win "cost" queries with AED price pages (Emirates Hospitals, Zavis, Meddental) and 100–380-post blogs (Versailles, Dr. Michael's).</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-high)"><span class="dot" style="background:var(--sev-high)"></span>High</span></div><div>
+    <p class="f-title">16 · Measurement is not in place</p>
+    <p class="f-body">GTM is on all 127 pages, but a Search Console verification tag is on only 1 page and no conversion baseline exists. Ahrefs and Semrush data are unavailable on current plans, so rankings and backlinks are not yet measured.</p></div></div>
+</div>
+
+<div class="card">
+  <h2>Medium-priority findings</h2>
+  <p class="cap">Phase 2–4.</p>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">17 · 80 of 127 titles exceed 60 characters</p>
+    <p class="f-body">The suffix "- Lumos Dental &amp; Aesthetic Clinic In Dubai" is 40 characters. Change it globally to "| Lumos Clinic Dubai".</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">18 · 1,891 images without alt text; 126 of 14,454 in WebP / AVIF</p>
+    <p class="f-body">Counts include images repeated in site-wide header and footer.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">19 · llms.txt is weak</p>
+    <p class="f-body">It leads with legal pages, contains HTML entities and the typo "Dermathology", and links demo posts. A replacement is drafted in <code>implementation/llms.txt</code>.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">20 · No Arabic version or hreflang</p>
+    <p class="f-body"><code>lang="en-US"</code> on every page. Dr. Michael's runs about 150 Arabic URLs. Planned for Phase 2 of the content work.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">21 · Placeholder review link is live <span style="font-weight:400;color:var(--muted)">(new)</span></p>
+    <p class="f-body"><code>/survey-page/</code> links to <code>YOUR_GOOGLE_REVIEW_LINK_HERE</code> (404). This breaks the review funnel.</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">22 · Salonist listing is wrong <span style="font-weight:400;color:var(--muted)">(new)</span></p>
+    <p class="f-body">It uses a hair-salon template, has no phone or website, and shows 0 reviews. It is the only third-party page that surfaces Lumos for "dental and aesthetic clinic Sheikh Zayed Road".</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">23 · "Viginismus" misspelled in URL and title</p>
+    <p class="f-body">Patients search "vaginismus". Rename and 301 (included in the redirect map).</p></div></div>
+  <div class="find"><div><span class="badge" style="color:var(--sev-medium)"><span class="dot" style="background:var(--sev-medium)"></span>Medium</span></div><div>
+    <p class="f-title">24 · Accessibility 83 / Best Practices 79 (mobile)</p>
+    <p class="f-body">The phone number is marked up as an H2 repeatedly. Contrast and link names also need fixing.</p></div></div>
+</div>
+
+<div class="card">
+  <h2>Baseline vs. proposal (21 Oct → 25 Oct)</h2>
+  <p class="cap">Confirms the proposal's KPI baseline before any changes are made.</p>
+  <div class="tscroll"><table>
+    <thead><tr><th>Metric</th><th class="num">Proposal 21 Oct</th><th class="num">Measured 25 Oct</th><th class="num">Month-6 target</th></tr></thead>
+    <tbody>
+      <tr><td class="p">URLs in sitemap (HTML)</td><td class="num">127</td><td class="num">127 (+1 KML)</td><td class="num">—</td></tr>
+      <tr><td class="p">Pages with nosnippet</td><td class="num">36</td><td class="num bad">36</td><td class="num">0</td></tr>
+      <tr><td class="p">Pages with exactly one H1</td><td class="num">70</td><td class="num">70</td><td class="num">127</td></tr>
+      <tr><td class="p">Pages with meta description</td><td class="num">98</td><td class="num">98</td><td class="num">all</td></tr>
+      <tr><td class="p">Titles &gt; 60 characters</td><td class="num">80</td><td class="num">80</td><td class="num">0</td></tr>
+      <tr><td class="p">Images without alt</td><td class="num">1,891</td><td class="num">1,891</td><td class="num">0 (content)</td></tr>
+      <tr><td class="p">Mobile performance / LCP</td><td class="num">28 / 10.9 s</td><td class="num bad">29 / 10.0 s</td><td class="num">70+ / ≤ 2.5 s</td></tr>
+      <tr><td class="p">Desktop performance</td><td class="num">51</td><td class="num">65</td><td class="num">90+</td></tr>
+      <tr><td class="p">Server response (TTFB)</td><td class="num">2.0 s</td><td class="num">1.78 s</td><td class="num">≤ 0.8 s</td></tr>
+      <tr><td class="p">GPTBot access</td><td class="num">429</td><td class="num bad">429</td><td class="num">200</td></tr>
+      <tr><td class="p">Medical schema coverage</td><td class="num">0%</td><td class="num">0%</td><td class="num">100%</td></tr>
+      <tr><td class="p">Non-brand queries citing Lumos</td><td class="num">not measured</td><td class="num bad">0 / 10</td><td class="num">MoM growth</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="card">
+  <h2>Where to start</h2>
+  <p class="cap">The first five need only WordPress and Hostinger access and no new content. Full checklist: <code>docs/phase-1-plan.md</code>.</p>
+  <ol class="steps">
+    <li><b>Remove nosnippet</b> from all 36 pages in Rank Math.</li>
+    <li><b>Allow-list GPTBot</b> in Hostinger's CDN / bot protection.</li>
+    <li><b>Remove lorem ipsum, "0 AED" prices and the review-link placeholder</b>, and delete the demo-theme posts.</li>
+    <li><b>Turn on full-page caching</b> and replace the two hero videos with a poster image.</li>
+    <li><b>Clean the sitemap</b>: noindex utility pages, add /about/.</li>
+    <li><b>Grant Google access</b> (Search Console, GA4, Business Profile) so rankings, conversions and Map Pack baselines can be set, then begin the Fattan / NAP clean-up.</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>Method &amp; limitations</h2>
+  <p class="foot">All 128 sitemap URLs were fetched on 25 Oct 2026 and parsed with a Python crawler (title, meta, robots, canonical, headings, schema, images, links, body text). Counts are measured, not estimated. Raw data: <code>audit/crawl-2026-10-25.csv</code>. Performance: Lighthouse 12.2.1 run locally against headless Chromium (the PageSpeed API quota was exhausted). These are lab figures for single runs; no field (CrUX) data was returned. AI visibility: 13 patient-style web searches on a US-based index, used as a proxy for the sources AI assistants cite. Fetching the site with each AI crawler's user agent tested only user-agent handling; it does not verify crawler IP addresses. Not yet covered: keyword rankings and backlinks (Ahrefs plan does not include API access; Semrush has no API units), Search Console, GA4 and Google Business Profile data (access pending), and live prompt testing in ChatGPT, Gemini and Perplexity (Month 1 panel).</p>
+</div>
+
+</div>
+</div>
+<script>
+  document.getElementById('tg').addEventListener('click', function(){
+    var r = document.documentElement;
+    var cur = r.getAttribute('data-theme');
+    if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    r.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>

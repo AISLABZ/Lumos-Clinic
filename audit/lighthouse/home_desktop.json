@@ -1,0 +1,69 @@
+{
+ "url": "https://lumosclinics.com/",
+ "fetchTime": "2026-10-25T19:08:42.009Z",
+ "lighthouseVersion": "12.2.1",
+ "formFactor": "desktop",
+ "scores": {
+  "performance": 65,
+  "accessibility": 89,
+  "best-practices": 78,
+  "seo": 92
+ },
+ "metrics": {
+  "first-contentful-paint": "1.2\u00a0s",
+  "largest-contentful-paint": "1.3\u00a0s",
+  "total-blocking-time": "480\u00a0ms",
+  "cumulative-layout-shift": "0",
+  "speed-index": "3.6\u00a0s",
+  "server-response-time": "Root document took 2,050\u00a0ms",
+  "total-byte-weight": "Total size was 14,925\u00a0KiB",
+  "dom-size": "4,806 elements"
+ },
+ "resources": [
+  {
+   "type": "total",
+   "requests": 221,
+   "kib": 14925
+  },
+  {
+   "type": "media",
+   "requests": 2,
+   "kib": 7605
+  },
+  {
+   "type": "image",
+   "requests": 114,
+   "kib": 5251
+  },
+  {
+   "type": "font",
+   "requests": 10,
+   "kib": 860
+  },
+  {
+   "type": "script",
+   "requests": 42,
+   "kib": 700
+  },
+  {
+   "type": "document",
+   "requests": 1,
+   "kib": 296
+  },
+  {
+   "type": "stylesheet",
+   "requests": 47,
+   "kib": 208
+  },
+  {
+   "type": "other",
+   "requests": 5,
+   "kib": 1
+  },
+  {
+   "type": "third-party",
+   "requests": 12,
+   "kib": 352
+  }
+ ]
+}

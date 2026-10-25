@@ -1,0 +1,49 @@
+{
+  "@context": "https://schema.org",
+  "@type": ["MedicalClinic", "Dentist"],
+  "@id": "https://lumosclinics.com/#clinic",
+  "name": "Lumos Dental & Aesthetic Clinic",
+  "legalName": "Lumos Polyclinic L.L.C.",
+  "alternateName": "Lumos Clinic Dubai",
+  "url": "https://lumosclinics.com/",
+  "logo": "https://lumosclinics.com/wp-content/uploads/google_logo.png",
+  "image": "https://lumosclinics.com/wp-content/uploads/google_logo.png",
+  "telephone": "+97143524140",
+  "email": "info@lumosclinics.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Unit 3501, Aspin Commercial Tower, Sheikh Zayed Road",
+    "addressLocality": "Dubai",
+    "addressRegion": "Dubai",
+    "addressCountry": "AE"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 25.20896, "longitude": 55.27250 },
+  "hasMap": "TBC — Google Business Profile Maps URL",
+  "areaServed": ["Trade Centre", "Sheikh Zayed Road", "DIFC", "Downtown Dubai", "Business Bay"],
+  "medicalSpecialty": ["Dentistry", "Dermatology", "PlasticSurgery"],
+  "availableService": [
+    { "@type": "MedicalProcedure", "name": "Dental implants", "url": "https://lumosclinics.com/treatments/dental-implants-in-dubai/" },
+    { "@type": "MedicalProcedure", "name": "Porcelain veneers", "url": "https://lumosclinics.com/treatments/veneers-in-dubai/" },
+    { "@type": "MedicalProcedure", "name": "Hollywood smile makeover", "url": "https://lumosclinics.com/treatments/hollywood-smile-makeovers/" },
+    { "@type": "MedicalProcedure", "name": "Orthodontics", "url": "https://lumosclinics.com/treatments/orthodontics/" },
+    { "@type": "MedicalProcedure", "name": "Anti-wrinkle injections", "url": "https://lumosclinics.com/treatments/anti-wrinkle-injectables-in-dubai/" },
+    { "@type": "MedicalProcedure", "name": "Profhilo", "url": "https://lumosclinics.com/treatments/profhilo-bio-remodeling-in-dubai/" },
+    { "@type": "MedicalProcedure", "name": "Laser hair removal", "url": "https://lumosclinics.com/treatments/laser-hair-removal-in-dubai/" }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "TBC",
+      "closes": "TBC"
+    }
+  ],
+  "isAcceptedPaymentMethod": "TBC — list of insurers accepted",
+  "sameAs": [
+    "https://www.instagram.com/lumosclinic.ae/",
+    "https://www.facebook.com/p/Lumos-Dental-Aesthetic-Clinic-61573771378003/",
+    "TBC — Google Business Profile URL",
+    "TBC — Doctify practice URL",
+    "TBC — Okadoc URL"
+  ]
+}
